@@ -1,4 +1,4 @@
-#include "mult.hpp"
+#include "convolution.hpp"
 #include "utils.hpp"
 
 using namespace std;
@@ -14,16 +14,20 @@ int main() {
 	string_to_ivector(b_str, b_vector);
 	string_to_ivector(ab_str, ab_vector_correct);
 
-	ivector ab_vector_given = multiply(a_vector, b_vector);
+	cout << "Given `a`:\n";
+	print_vector(a_vector);
 
-	cout << "Correct: " << endl;
-	for (int i = 0; i < 10; i++) {
-		cout << ab_vector_correct[i] << endl;
-	}
-	cout << "Given: " << endl;
-	for (int i = 0; i < 10; i++) {
-		cout << ab_vector_given[i] << endl;
-	}
+	cout << "Given `b`:\n";
+	print_vector(b_vector);
+
+	cout << a_vector.size() << " " << b_vector.size() << endl;
+
+	ivector ab_vector_given = fast_NWC(a_vector, b_vector);
+
+	cout << "Correct product:\n";
+	print_vector(ab_vector_correct);
+	cout << "Given product:\n";
+	print_vector(ab_vector_given);
 
 	return 0;
 }

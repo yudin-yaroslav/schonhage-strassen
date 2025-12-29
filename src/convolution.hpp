@@ -14,10 +14,10 @@
 // h+(x) = f(x) g(x) mod (x^n - 1)
 // h-(x) = f(x) g(x) mod (x^n + 1)
 //
-// Warning: the functions PWC_with_PROU and NWC_with_PROU
+// WARNING: the functions PWC_with_PROU and NWC_with_PROU
 // are written to work in the ring of polynomials
 // Z[x]/(x^{2m} + 1), not in the field of residues modulo some prime.
 
-ivector PWC_with_PROU(const ivector &f, const ivector &g, uint64_t w, uint64_t mod);
-ivector NWC_with_PROU(const ivector &f, const ivector &g, uint64_t w, uint64_t mod);
-ivector fast_NWC(const ivector &f, const ivector &g, uint64_t mod);
+poly_ivector PWC_with_PROU(const poly_ivector &f, const poly_ivector &g, ivector w, uint64_t m);
+poly_ivector NWC_with_PROU(const poly_ivector &f, const poly_ivector &g, ivector w, uint64_t m);
+ivector fast_NWC(const ivector &f, const ivector &g);

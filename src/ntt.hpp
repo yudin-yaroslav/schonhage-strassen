@@ -2,5 +2,12 @@
 
 #include "utils.hpp"
 
-ivector NTT(const ivector &coeffs, uint8_t k, uint64_t mod, uint64_t w_n);
-ivector INTT(const ivector &values, uint8_t k, uint64_t mod, uint64_t w_n);
+// Number Theoretic Transform
+// Suppose w in R is an n-PROU in Z_m, where n is a power of 2.
+// The Number Theoretic Transform (NTT) with respect to w
+// of a polynomial f(x) in R[x] with deg(f) < n is the tuple
+// of evaluations:
+// NTT_w(f) = (f(1), f(w), ..., f(w^{n-1}))
+
+ivector NTT(const ivector &f, uint64_t w, uint64_t mod);
+ivector INTT(const ivector &f, uint64_t w, uint64_t mod);

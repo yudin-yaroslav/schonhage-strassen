@@ -25,9 +25,5 @@ int main() {
 		cout << ab_vector_given[i] << endl;
 	}
 
-	// for (size_t i = 0; i < 32; i++) {
-	// 	cout << ntt_primes[i] << " " << ntt_order_k[i] << endl;
-	// }
-
 	return 0;
 }

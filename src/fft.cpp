@@ -6,7 +6,7 @@ poly_ivector FFT(const poly_ivector &f, ivector w, uint64_t m) {
 	// Data: f_0, f_1, ..., f_{n-1} in R, and w in R that is an n-PROU
 	// Result: (f(1), f(w), . . . , f(w^{n−1}))
 
-	const uint64_t n = f.size();
+	const size_t n = f.size();
 
 	if (n == 1) {
 		return {f[0]};
@@ -44,7 +44,7 @@ poly_ivector FFT(const poly_ivector &f, ivector w, uint64_t m) {
 }
 
 poly_ivector IFFT(const poly_ivector &f, ivector w, uint64_t m) {
-	const uint64_t n = f.size();
+	const size_t n = f.size();
 
 	if ((n & (n - 1)) != 0) {
 		throw std::invalid_argument("IFFT: Given `n` is not a power of 2");

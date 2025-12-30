@@ -20,4 +20,6 @@
 
 poly_ivector PWC_with_PROU(const poly_ivector &f, const poly_ivector &g, ivector w, uint64_t m);
 poly_ivector NWC_with_PROU(const poly_ivector &f, const poly_ivector &g, ivector w, uint64_t m);
+ivector naive_NWC(const ivector &f, const ivector &g);
 ivector fast_NWC(const ivector &f, const ivector &g);
+ivector full_product(const ivector &f, const ivector &g);

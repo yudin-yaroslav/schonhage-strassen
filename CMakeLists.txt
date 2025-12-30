@@ -3,7 +3,8 @@ project(main)
 
 add_executable(${PROJECT_NAME}
     src/fft.cpp
-    src/convolution.cpp
+    src/product.cpp
+    src/tests.cpp
     src/main.cpp
 )
 

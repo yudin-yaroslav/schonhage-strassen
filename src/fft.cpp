@@ -22,7 +22,9 @@ poly_ivector FFT(const poly_ivector &f, ivector w, uint64_t m) {
 		f_odd[i] = f[2 * i + 1];
 	}
 
-	const ivector w_squared = poly_mul_naive(w, w, m);
+	ivector w_squared;
+	poly_mul(w_squared, w, w, m);
+
 	poly_ivector values_even = FFT(f_even, w_squared, m);
 	poly_ivector values_odd = FFT(f_odd, w_squared, m);
 
@@ -32,12 +34,13 @@ poly_ivector FFT(const poly_ivector &f, ivector w, uint64_t m) {
 	pow_w[0] = 1;
 
 	for (size_t i = 0; i < n / 2; ++i) {
-		ivector temp = poly_mul_naive(pow_w, values_odd[i], m);
+		ivector prod;
+		poly_mul(prod, pow_w, values_odd[i], m);
 
-		values[i] = poly_add(values_even[i], temp);
-		values[i + n / 2] = poly_sub(values_even[i], temp);
+		poly_add(values[i], values_even[i], prod);
+		poly_sub(values[i + n / 2], values_even[i], prod);
 
-		pow_w = poly_mul_naive(pow_w, w, m);
+		poly_mul(pow_w, pow_w, w, m);
 	}
 
 	return values;
@@ -50,12 +53,13 @@ poly_ivector IFFT(const poly_ivector &f, ivector w, uint64_t m) {
 		throw std::invalid_argument("IFFT: Given `n` is not a power of 2");
 	}
 
-	const ivector inv_w = poly_pow(w, n - 1, m);
+	ivector inv_w;
+	poly_pow(inv_w, w, n - 1, m);
 
 	poly_ivector h = FFT(f, inv_w, m);
 
 	for (size_t i = 0; i < h.size(); i++) {
-		h[i] = poly_div_scalar(h[i], n);
+		poly_div_scalar(h[i], n);
 	}
 	return h;
 }

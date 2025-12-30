@@ -1,7 +1,9 @@
-#include "product.hpp"
 #include "tests.hpp"
+#include <chrono>
+#include <iostream>
 
 using namespace std;
+using namespace std::chrono;
 
 int main() {
 	test_poly_add();
@@ -20,7 +22,12 @@ int main() {
 	test_naive_NWC_basic_example();
 
 	test_txt_input_small();
+	const auto start = steady_clock::now();
 	test_txt_input_large();
+	const auto end = steady_clock::now();
+
+	const auto ns = chrono::duration_cast<chrono::nanoseconds>(end - start).count();
+	cout << "duration: " << ns / 1e6 << " ms\n";
 
 	return 0;
 }

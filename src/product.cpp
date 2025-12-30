@@ -39,28 +39,27 @@ poly_ivector NWC_with_PROU(const poly_ivector &f, const poly_ivector &g, ivector
 	}
 	const size_t n = f.size();
 
-	poly_ivector f_prime(n), g_prime(n);
-
-	ivector pow_w = {1};
-	for (size_t i = 0; i < n; ++i) {
-
-		f_prime[i] = poly_mul_naive(pow_w, f[i], m);
-		g_prime[i] = poly_mul_naive(pow_w, g[i], m);
-		pow_w = poly_mul_naive(pow_w, w, m);
+	uint64_t e;
+	if (n == m) {
+		e = 2;
+	} else if (n == 2 * m) {
+		e = 1;
+	} else {
+		throw std::invalid_argument("NWC_with_PROU: Invalid size relationship between n and m");
 	}
 
-	const ivector w_squared = poly_mul_naive(w, w, m);
+	poly_ivector f_prime(n), g_prime(n);
+	for (size_t i = 0; i < n; ++i) {
+		f_prime[i] = poly_mul_by_x_power(f[i], i * e, m);
+		g_prime[i] = poly_mul_by_x_power(g[i], i * e, m);
+	}
+
+	ivector w_squared = poly_mul_by_x_power(w, e, m);
 	poly_ivector h_prime = PWC_with_PROU(f_prime, g_prime, w_squared, m);
-
-	ivector w_inv = poly_pow(w, (2 * n - 1), m);
-
-	ivector pow_inv = {1};
 	poly_ivector h(n);
 	for (size_t i = 0; i < n; ++i) {
-		h[i] = poly_mul_naive(pow_inv, h_prime[i], m);
-		pow_inv = poly_mul_naive(pow_inv, w_inv, m);
+		h[i] = poly_mul_by_x_power(h_prime[i], (2 * n - 1) * i * e, m);
 	}
-
 	return h;
 }
 
@@ -86,6 +85,10 @@ ivector naive_NWC(const ivector &f, const ivector &g) {
 }
 
 ivector fast_NWC(const ivector &f, const ivector &g) {
+	// Data: Vectors f = [f_0, f_1, ..., f_{n-1}] and g = [g_0, g_1, ..., g_{n-1}]
+	// with entries in R and n = 2^l.
+	// Result: The negatively wrapped convolution h- = [h_0, ..., h_{n-1}] of f and g.
+
 	if (f.size() != g.size()) {
 		throw std::invalid_argument("fast_NWC: Given `f` and `g` have different sizes");
 	}
@@ -97,7 +100,7 @@ ivector fast_NWC(const ivector &f, const ivector &g) {
 	}
 
 	// Base case
-	if (n <= 4) {
+	if (n <= 64) {
 		return naive_NWC(f, g);
 	}
 
